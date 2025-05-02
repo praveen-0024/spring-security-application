@@ -23,4 +23,4 @@ CREATE TABLE users_roles (
   FOREIGN KEY (role_id) REFERENCES roles(id)
 );
 
-INSERT INTO roles (name, created_at, updated_at) VALUES ('ROLE_USER', now(), now()), ('ROLE_ADMIN', now(), now());
+INSERT INTO roles (name, created_at, updated_at) VALUES ('USER', now(), now()), ('ADMIN', now(), now());
