@@ -1,0 +1,30 @@
+spring:
+  application:
+    name: basic-auth-security
+  datasource:
+    url: jdbc:postgresql://localhost:5432/security_application
+    username: postgres
+    password: root
+    driver-class-name: org.postgresql.Driver
+    jpa:
+      database-platform: org.hibernate.dialect.MySQL8Dialect
+      show-sql: true
+      properties:
+        hibernate.format_sql: true
+        hibernate.use_sql_comments: true
+      hibernate:
+        ddl-auto: none
+      open-in-view: false
+      hikari:
+        maximum-pool-size: 10
+        minimum-idle: 5
+
+# flyway properties
+flyway:
+  enabled: true
+  baseline-on-migrate: true
+  validate-on-migrate: true
+
+jwt:
+  secret: my-jwt-secret-key-which-should-be-long-enough
+  expiration: 3600000
