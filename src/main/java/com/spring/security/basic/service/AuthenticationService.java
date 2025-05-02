@@ -64,8 +64,8 @@ public class AuthenticationService {
         Users user = userRepository.findByUsername(request.userName())
                 .orElseThrow(() -> new UsernameNotFoundException("User not found"));
 
-        String accessToken = jwtService.generateToken(new UserDetailsImpl(user));
-        String refreshToken = jwtService.generateRefreshToken(new UserDetailsImpl(user));
+        String accessToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
 
         user.setRefreshToken(refreshToken);
         userRepository.save(user);
@@ -87,7 +87,7 @@ public class AuthenticationService {
         if (jwtService.isTokenExpired(refreshToken))
             throw new RuntimeException("Refresh token expired");
 
-        String newAccessToken = jwtService.generateToken(new UserDetailsImpl(user));
+        String newAccessToken = jwtService.generateToken(user);
         return new AuthResponse(newAccessToken, refreshToken); // reuse same refresh token
     }
 

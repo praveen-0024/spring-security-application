@@ -1,5 +1,6 @@
 package com.spring.security.basic.jwt;
 
+import com.spring.security.basic.entity.Users;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import io.jsonwebtoken.SignatureAlgorithm;
@@ -29,14 +30,12 @@ public class JwtService {
     private long jwtExpirationInMs;
 
     // Generate Token
-    public String generateToken(UserDetails userDetails) {
+    public String generateToken(Users userDetails) {
         Map<String, Object> claims = new HashMap<>();
-        Collection<? extends GrantedAuthority> roles = userDetails.getAuthorities();
-
-        if (roles.contains(new SimpleGrantedAuthority("ROLE_ADMIN"))) {
+        if (userDetails.getRoles().contains("ADMIN")) {
             claims.put("isAdmin", true);
         }
-        if (roles.contains(new SimpleGrantedAuthority("ROLE_USER"))) {
+        if (userDetails.getRoles().contains("USER")) {
             claims.put("isUser", true);
         }
 
@@ -82,7 +81,7 @@ public class JwtService {
     }
 
     // Generate Refresh Token
-    public String generateRefreshToken(UserDetails userDetails) {
+    public String generateRefreshToken(Users userDetails) {
         return Jwts.builder()
                 .setSubject(userDetails.getUsername())
                 .setIssuedAt(new Date())
